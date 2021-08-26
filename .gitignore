@@ -163,7 +163,7 @@ $RECYCLE.BIN/
 postgres/data
 
 # Redis
-postgres/data
+redis
 
 # www-data
 webapp

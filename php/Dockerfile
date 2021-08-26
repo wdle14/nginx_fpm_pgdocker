@@ -14,6 +14,7 @@ RUN apk add --update --no-cache --virtual .ext-deps \
         make \
         openssl-dev \
         icu-dev
+RUN apk add --no-cache --upgrade bash
 RUN \
     docker-php-ext-configure pdo_mysql && \
     docker-php-ext-configure pdo_pgsql && \
@@ -39,3 +40,13 @@ RUN \
     pecl clear-cache && \
     docker-php-ext-enable redis && \
     docker-php-source delete
+
+# add bash script
+# RUN mkdir /script
+# COPY run.sh /script/run.sh
+# RUN chmod +x /script/run.sh
+#ADD run.sh /
+#WORKDIR /var/www/html/
+#CMD bash -c "composer install"
+#run internal command like composer & run supervisor
+#ENTRYPOINT [ "/run.sh" ]
