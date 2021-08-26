@@ -161,4 +161,10 @@ $RECYCLE.BIN/
 
 # Database data
 postgres/data
+
+# Redis
+postgres/data
+
+# www-data
+webapp
 # End of https://www.gitignore.io/api/code,linux,macos,windows,phpstorm
