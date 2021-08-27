@@ -15,6 +15,7 @@ RUN apk add --update --no-cache --virtual .ext-deps \
         openssl-dev \
         icu-dev
 RUN apk add --no-cache --upgrade bash
+
 RUN \
     docker-php-ext-configure pdo_mysql && \
     docker-php-ext-configure pdo_pgsql && \
@@ -40,6 +41,9 @@ RUN \
     pecl clear-cache && \
     docker-php-ext-enable redis && \
     docker-php-source delete
+    
+RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
+
 
 # add bash script
 # RUN mkdir /script
