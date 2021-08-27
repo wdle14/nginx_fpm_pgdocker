@@ -39,7 +39,7 @@ RUN \
     docker-php-ext-configure bcmath && \
     docker-php-ext-install pdo_mysql pdo_pgsql zip opcache exif gd intl sockets bcmath
 
-#RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
+RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 
 RUN \
     apk add --no-cache --virtual openssl-dev pcre-dev
