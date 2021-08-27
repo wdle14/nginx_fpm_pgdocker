@@ -16,6 +16,13 @@ RUN apk add --update --no-cache --virtual .ext-deps \
         icu-dev
 RUN apk add --no-cache --upgrade bash
 
+RUN apk add imagemagick
+
+RUN apk add imagemagick-dev
+
+RUN pecl install imagick \
+    && docker-php-ext-enable imagick 
+
 RUN \
     docker-php-ext-configure pdo_mysql && \
     docker-php-ext-configure pdo_pgsql && \
@@ -32,6 +39,7 @@ RUN \
     docker-php-ext-configure bcmath && \
     docker-php-ext-install pdo_mysql pdo_pgsql zip opcache exif gd intl sockets bcmath
 
+#RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 
 RUN \
     apk add --no-cache --virtual openssl-dev pcre-dev
@@ -41,8 +49,6 @@ RUN \
     pecl clear-cache && \
     docker-php-ext-enable redis && \
     docker-php-source delete
-    
-RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 
 
 # add bash script
