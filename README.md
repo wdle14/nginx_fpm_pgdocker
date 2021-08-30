@@ -3,6 +3,12 @@
 PHP 7.4
 POSGRE 12
 
+Clone This Project 
+
+```bash
+git clone https://github.com/wdle14/nginx_fpm_pgdocker.git
+```
+
 This is a backend stack of decoupled technologies in docker containers.
 If you have installed docker-compose only use
 
