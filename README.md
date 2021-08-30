@@ -11,15 +11,31 @@ docker-compose up --build
 ```
 it uses a HA proxy, which is for ease of use of multiple domains and scaling of containers based on domains.
 
-first you need to define the domain name on
+first you need to define the domain name on local computer
+
+For Linux
 
 ```bash
 vi /etc/hosts
 ```
+
+For Windows
+```bash
+C:\Windows\System32\drivers\etc\hosts
+```
+
 add to the line of the file
 
 ```bash
 127.0.0.1 local.test
+```
+
+create a folder in the main folder to place the laravel project
+
+```bash
+sudo mkdir webapp
+cd webapp
+git clone https://github.com/{Your Laravel Project}
 ```
 
 this docker file supports laravel environment
