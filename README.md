@@ -13,7 +13,7 @@ This is a backend stack of decoupled technologies in docker containers.
 If you have installed docker-compose only use
 
 ```bash
-docker-compose up --build
+sudo docker-compose up --build
 ```
 it uses a HA proxy, which is for ease of use of multiple domains and scaling of containers based on domains.
 
@@ -50,6 +50,12 @@ for some reason you have a problem with limited web server resources in handling
 
 ```bash
 docker-compose scale nginx={number scaling}
+```
+
+remove everything (volumes, images, etc.)
+
+```bash
+sudo docker-compose down --rmi all -v --remove-orphans
 ```
 
 Otherwise please follow the steps in the [official docker documentation](https://docs.docker.com/install/linux/docker-ce/debian/) to install docker compose
