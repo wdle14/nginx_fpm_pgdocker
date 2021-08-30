@@ -1,45 +1,53 @@
-FROM php:7.3-fpm-alpine
+FROM php:7.4-fpm-alpine
 # Install Composer
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-RUN apk add --update --no-cache --virtual .ext-deps \
-        libjpeg-turbo-dev \
-        libwebp-dev \
-        libpng-dev \
-        postgresql-dev \
-        libzip-dev \
-        freetype-dev \
-        libmcrypt-dev \
-        autoconf \
-        g++ \
-        make \
-        openssl-dev \
-        icu-dev
-RUN apk add --no-cache --upgrade bash
+RUN apk add --update \
+		$PHPIZE_DEPS \
+		freetype-dev \
+		git \
+		libjpeg-turbo-dev \
+		libpng-dev \
+		libxml2-dev \
+		libzip-dev \
+		openssh-client \
+		php7-json \
+		php7-openssl \
+		php7-pdo \
+		php7-pdo_mysql \
+		php7-session \
+		php7-simplexml \
+		php7-tokenizer \
+		php7-xml \
+		imagemagick \
+		imagemagick-libs \
+		imagemagick-dev \
+		php7-imagick \
+		php7-pcntl \
+		php7-zip \
+		sqlite \
+	&& docker-php-ext-install iconv soap sockets exif bcmath pdo_mysql pcntl \
+	&& docker-php-ext-configure gd --with-jpeg --with-freetype \
+	&& docker-php-ext-install gd \
+	&& docker-php-ext-install zip
 
-RUN apk add imagemagick
+RUN printf "\n" | pecl install \
+		imagick && \
+		docker-php-ext-enable --ini-name 20-imagick.ini imagick
 
-RUN apk add imagemagick-dev
+RUN printf "\n" | pecl install \
+		pcov && \
+		docker-php-ext-enable pcov
 
-RUN pecl install imagick \
-    && docker-php-ext-enable imagick 
+RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
+	&& php composer-setup.php \
+	&& php -r "unlink('composer-setup.php');" \
+	&& mv composer.phar /usr/bin/composer
 
-RUN \
-    docker-php-ext-configure pdo_mysql && \
-    docker-php-ext-configure pdo_pgsql && \
-    docker-php-ext-configure zip --with-libzip && \
-    docker-php-ext-configure opcache && \
-    docker-php-ext-configure exif && \
-    docker-php-ext-configure gd \
-        --with-jpeg-dir=/usr/include \
-        --with-png-dir=/usr/include \
-        --with-webp-dir=/usr/include \
-        --with-freetype-dir=/usr/include && \
-    docker-php-ext-configure intl && \
-    docker-php-ext-configure sockets && \
-    docker-php-ext-configure bcmath && \
-    docker-php-ext-install pdo_mysql pdo_pgsql zip opcache exif gd intl sockets bcmath
 
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
+
+COPY yy-custom.ini /usr/local/etc/php/conf.d/
+
+#ADD php.ini "/usr/local/etc/php/php.ini"
 
 RUN \
     apk add --no-cache --virtual openssl-dev pcre-dev
@@ -49,6 +57,9 @@ RUN \
     pecl clear-cache && \
     docker-php-ext-enable redis && \
     docker-php-source delete
+
+#RUN apk del --no-cache .build-deps $PHPIZE_DEPS && rm -rf /var/cache/apk/*
+
 
 
 # add bash script
