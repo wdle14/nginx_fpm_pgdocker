@@ -24,7 +24,7 @@ For Windows
 C:\Windows\System32\drivers\etc\hosts
 ```
 
-add to the line of the file
+add to the line of the file with sampel local domain name `local.test`
 
 ```bash
 127.0.0.1 local.test
