@@ -40,6 +40,12 @@ git clone https://github.com/{Your Laravel Project}
 
 this docker file supports laravel environment
 
+for some reason you have a problem with limited web server resources in handling many requests, then you just need to do scaling on the web server
+
+```bash
+docker-compose scale nginx={number scaling}
+```
+
 Otherwise please follow the steps in the [official docker documentation](https://docs.docker.com/install/linux/docker-ce/debian/) to install docker compose
 
 ## Thanks :)
