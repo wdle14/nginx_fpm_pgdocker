@@ -20,8 +20,8 @@ services:
     depends_on:      
       - pgsql
       - redis
-    ports:
-    - "8081:80"
+    # ports:
+    # - "8081:80"
 
   pgsql:
     image: postgres:12-alpine
