@@ -2,6 +2,11 @@ FROM alpine:latest
 
 WORKDIR /var/www/html/
 
+ARG PROXY
+
+ENV http_proxy $PROXY
+ENV https_proxy $PROXY
+
 # Essentials
 RUN echo "UTC" > /etc/timezone
 RUN apk add --no-cache zip unzip curl sqlite nginx supervisor
